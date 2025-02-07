@@ -20,6 +20,7 @@ import {
 } from '@/entities/repositories/store';
 
 import { RootState } from '@/app/(config)/store';
+import { parseDate } from '@/shared/lib';
 
 const RepositoriesList: FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, any>>();
@@ -94,7 +95,7 @@ const RepositoriesList: FC = () => {
               <CardFooter>
                 <div className="flex space-x-4">
                   <div>last update:</div>
-                  <div>{new Date(r.updated_at).toLocaleDateString()}</div>
+                  <div>{parseDate(r.updated_at)}</div>
                 </div>
               </CardFooter>
             </Card>
