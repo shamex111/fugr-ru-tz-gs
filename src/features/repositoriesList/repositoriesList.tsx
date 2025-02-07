@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,12 +25,12 @@ const RepositoriesList: FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, any>>();
   const { isLoading, error, repositories, name, isEnd } =
     useSelector(repositoriesSelector);
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastRepoRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setPage(1);
+    page.current = 1;
   }, [name]);
 
   useEffect(() => {
@@ -41,11 +42,11 @@ const RepositoriesList: FC = () => {
       entries => {
         const lastEntry = entries[0];
         if (lastEntry.isIntersecting && !isLoading && !isEnd) {
-          setPage(prevPage => prevPage + 1);
+          page.current++;
           dispatch(
             repositoriesActions.getMoreRepositories({
               name,
-              page: page + 1
+              page: page.current
             })
           );
         }
@@ -74,6 +75,7 @@ const RepositoriesList: FC = () => {
             key={r.name}
             ref={index === repositories.length - 1 ? lastRepoRef : null}
           >
+            <div className="text-white">{index}</div>
             <Card>
               <CardHeader>
                 <CardTitle>{r.name}</CardTitle>
