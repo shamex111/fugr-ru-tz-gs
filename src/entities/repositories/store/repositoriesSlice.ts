@@ -37,6 +37,7 @@ const repositoriesSlice = createSliceWithThunks({
           state.isLoading = true;
           state.error = '';
           state.repositories = null;
+          state.name = ''
           state.isEnd = false;
         },
         fulfilled: (state, { payload }) => {

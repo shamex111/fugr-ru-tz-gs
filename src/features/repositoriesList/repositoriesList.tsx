@@ -1,7 +1,6 @@
-'use client';
-
+'use client'
 import { ThunkDispatch } from '@reduxjs/toolkit';
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -25,9 +24,13 @@ const RepositoriesList: FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, any>>();
   const { isLoading, error, repositories, name, isEnd } =
     useSelector(repositoriesSelector);
-  const page = useRef(1);
+  const [page, setPage] = useState(1);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastRepoRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setPage(1);
+  }, [name]);
 
   useEffect(() => {
     if (!repositories?.length) return;
@@ -37,12 +40,12 @@ const RepositoriesList: FC = () => {
     observerRef.current = new IntersectionObserver(
       entries => {
         const lastEntry = entries[0];
-        page.current++
         if (lastEntry.isIntersecting && !isLoading && !isEnd) {
+          setPage(prevPage => prevPage + 1);
           dispatch(
             repositoriesActions.getMoreRepositories({
               name,
-              page: page.current 
+              page: page + 1
             })
           );
         }
@@ -55,7 +58,7 @@ const RepositoriesList: FC = () => {
     }
 
     return () => observerRef.current?.disconnect();
-  }, [repositories, isLoading, dispatch]);
+  }, [repositories, isLoading, dispatch, page, isEnd]);
 
   return (
     <div className="w-fit mx-auto">
