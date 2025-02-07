@@ -7,7 +7,6 @@ class RepositoriesService {
     name: string,
     page: number = 1
   ): Promise<IRepository[]> {
-    console.log(page,';d')
     const response = await fetch(
       `${this.BASE_URL}/users/${name}/repos?per_page=20&page=${page}&sort=pushed`
     );
