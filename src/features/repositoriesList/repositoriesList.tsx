@@ -37,12 +37,12 @@ const RepositoriesList: FC = () => {
     observerRef.current = new IntersectionObserver(
       entries => {
         const lastEntry = entries[0];
-
+        page.current++
         if (lastEntry.isIntersecting && !isLoading && !isEnd) {
           dispatch(
             repositoriesActions.getMoreRepositories({
               name,
-              page: page.current + 1
+              page: page.current 
             })
           );
         }
