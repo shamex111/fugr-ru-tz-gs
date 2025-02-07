@@ -4,6 +4,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { parseDate } from '@/shared/lib';
 import {
   Card,
   CardContent,
@@ -13,6 +14,7 @@ import {
   CardTitle
 } from '@/shared/ui/common/card';
 import { SkeletonCard } from '@/shared/ui/elements';
+import Heading from '@/shared/ui/elements/heading';
 
 import {
   repositoriesActions,
@@ -20,7 +22,6 @@ import {
 } from '@/entities/repositories/store';
 
 import { RootState } from '@/app/(config)/store';
-import { parseDate } from '@/shared/lib';
 
 const RepositoriesList: FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, any>>();
@@ -65,6 +66,7 @@ const RepositoriesList: FC = () => {
   return (
     <div className="w-fit mx-auto">
       {error && <div className="text-red-700 my-3 font-semibold">{error}</div>}
+      <Heading>{name}</Heading>
       {repositories?.length === 0 && (
         <div className="text-white my-3">
           У пользователя нет репозиториев :(
@@ -76,27 +78,31 @@ const RepositoriesList: FC = () => {
             key={r.name}
             ref={index === repositories.length - 1 ? lastRepoRef : null}
           >
-            <div className="text-white">{index}</div>
+            <div className="text-white mx-auto w-fit font-[600] text-xl my-2">
+              {index}
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle>{r.name}</CardTitle>
                 <CardDescription>{r?.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex space-x-4">
-                  <div>url:</div>
-                  <a href={r.html_url}>{r.html_url}</a>
-                </div>
-                <div className="flex space-x-4">
-                  <div>quantity stars:</div>
-                  <div>{r.stargazers_count}</div>
-                </div>
+                <article className=" flex flex-col space-y-2">
+                  <section className="flex space-x-4">
+                    <div>url:</div>
+                    <a href={r.html_url}>{r.html_url}</a>
+                  </section>
+                  <section className="flex space-x-4">
+                    <div>quantity stars:</div>
+                    <div>{r.stargazers_count}</div>
+                  </section>
+                </article>
               </CardContent>
               <CardFooter>
-                <div className="flex space-x-4">
+                <section className="flex space-x-4">
                   <div>last update:</div>
                   <div>{parseDate(r.updated_at)}</div>
-                </div>
+                </section>
               </CardFooter>
             </Card>
           </article>
