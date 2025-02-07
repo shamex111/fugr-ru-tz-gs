@@ -5,6 +5,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { parseDate } from '@/shared/lib';
+import { RootState } from '@/shared/store';
 import {
   Card,
   CardContent,
@@ -20,8 +21,6 @@ import {
   repositoriesActions,
   repositoriesSelector
 } from '@/entities/repositories/store';
-
-import { RootState } from '@/app/(config)/store';
 
 const RepositoriesList: FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, any>>();
@@ -61,7 +60,7 @@ const RepositoriesList: FC = () => {
     }
 
     return () => observerRef.current?.disconnect();
-  }, [repositories, isLoading, dispatch, page, isEnd]);
+  }, [repositories, isLoading, dispatch]);
 
   return (
     <div className="w-fit mx-auto">

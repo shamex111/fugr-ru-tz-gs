@@ -5,12 +5,11 @@ import { ChangeEvent, FC } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useDebounce } from '@/shared/hooks/useDebounce';
+import { RootState } from '@/shared/store';
 import { Input } from '@/shared/ui/common';
 import Heading from '@/shared/ui/elements/heading';
 
 import { repositoriesActions } from '@/entities/repositories/store';
-
-import { RootState } from '@/app/(config)/store';
 
 const GithubSearcher: FC = () => {
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, any>>();

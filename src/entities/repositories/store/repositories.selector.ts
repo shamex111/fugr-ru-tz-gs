@@ -1,4 +1,4 @@
-import { RootState } from '@/app/(config)/store';
+import { RootState } from '@/shared/store';
 
 export const repositoriesSelector = (state: RootState) =>
   state.repositoriesReducer;
